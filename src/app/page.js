@@ -13,20 +13,33 @@ export default function HomePage() {
     }))
   );
 
+  const handleSlotClick = (id) => {
+    setSlots((prevSlots) =>
+      prevSlots.map((slot) =>
+        slot.id === id
+          ? { ...slot, isBooked: !slot.isBooked }
+          : slot
+      )
+    );
+  };
+
   return (
     <main className="container">
-      <h1>AtOwner'sRisk Parking Lot Management System</h1>
+      <h1>Parking Lot Management System</h1>
       <div className="grid">
         {slots.map((slot) => (
           <div
             key={slot.id}
             className={`slot ${slot.isBooked ? 'booked' : 'free'} ${slot.type}`}
+            onClick={() => handleSlotClick(slot.id)}
           >
             <p>Slot {slot.id}</p>
             <p>{slot.type === 'small' ? 'Small Only' : 'Small/Large'}</p>
+            <p>{slot.isBooked ? 'Booked' : 'Free'}</p>
           </div>
         ))}
       </div>
     </main>
   );
 }
+
