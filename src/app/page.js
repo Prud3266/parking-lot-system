@@ -15,6 +15,7 @@ export default function HomePage() {
       startTime: null
     }))
   );
+  const [revenue, setRevenue] = useState(0);
 
   const handleBookSlot = () => {
     const available = slots.find(slot => {
@@ -42,6 +43,7 @@ export default function HomePage() {
     const total = base + extra;
 
     alert(`Slot ${slot.id} Fee: ₦${total}`);
+    setRevenue(prev => prev + total);
 
     setSlots(prev => prev.map(s =>
       s.id === id
@@ -79,7 +81,10 @@ export default function HomePage() {
           </div>
         ))}
       </div>
+
+      <div className="revenue-display">
+        <h2>Total Revenue: ₦{revenue}</h2>
+      </div>
     </main>
   );
 }
-
