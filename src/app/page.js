@@ -1,21 +1,36 @@
 "use client"
 import './globals.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const TOTAL_SLOTS = 15;
+const STORAGE_KEY = 'parking_slots';
+const REVENUE_KEY = 'parking_revenue';
 
 export default function HomePage() {
   const [vehicleType, setVehicleType] = useState('small');
-  const [slots, setSlots] = useState(
-    Array.from({ length: TOTAL_SLOTS }, (_, i) => ({
-      id: i + 1,
-      type: i < 10 ? 'small' : 'both',
-      isBooked: false,
-      vehicleType: null,
-      startTime: null
-    }))
-  );
+  const [slots, setSlots] = useState([]);
   const [revenue, setRevenue] = useState(0);
+
+  useEffect(() => {
+    const savedSlots = localStorage.getItem(STORAGE_KEY);
+    const savedRevenue = localStorage.getItem(REVENUE_KEY);
+    setSlots(
+      savedSlots ? JSON.parse(savedSlots) :
+      Array.from({ length: TOTAL_SLOTS }, (_, i) => ({
+        id: i + 1,
+        type: i < 10 ? 'small' : 'both',
+        isBooked: false,
+        vehicleType: null,
+        startTime: null
+      }))
+    );
+    setRevenue(savedRevenue ? parseInt(savedRevenue, 10) : 0);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(slots));
+    localStorage.setItem(REVENUE_KEY, revenue.toString());
+  }, [slots, revenue]);
 
   const handleBookSlot = () => {
     const available = slots.find(slot => {
