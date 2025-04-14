@@ -69,7 +69,7 @@ export default function HomePage() {
 
   return (
     <main className="container">
-      <h1>Parking Lot Management System</h1>
+      <h1>Risk-Free 🚗 Parking Lot Management System</h1>
 
       <div className="booking-form">
         <label htmlFor="vehicle-select">Vehicle Type:</label>
